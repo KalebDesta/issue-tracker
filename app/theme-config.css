@@ -1,0 +1,9 @@
+.radix-themes {
+  font-family: var(--font-poppins) !important;
+}
+.radix-themes {
+  --font-weight-light: 200;
+  --font-weight-regular: 300;
+  --font-weight-medium: 600;
+  --font-weight-bold: 800;
+}
