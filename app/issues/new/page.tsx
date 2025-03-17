@@ -1,5 +1,5 @@
 "use client";
-import { Button, Callout, Text, TextField } from "@radix-ui/themes";
+import { Button, Callout, TextField } from "@radix-ui/themes";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import React, { useEffect, useState } from "react";
@@ -26,6 +26,24 @@ const NewIssuePage = () => {
   const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
 
+  const onSubmit = handleSubmit(async (data) => {
+    setSubmitting(true);
+    const response = await fetch("/api/issues", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data), // Convert to JSON string
+    });
+    setSubmitting(false);
+    if (response.ok) {
+      setError("");
+      router.push("/issues");
+    } else {
+      setError("Failed to submit due to unexpected error");
+    }
+  });
+
   return (
     <div className="max-w-xl">
       {error && (
@@ -33,26 +51,7 @@ const NewIssuePage = () => {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form
-        className="space-y-3"
-        onSubmit={handleSubmit(async (data) => {
-          setSubmitting(true);
-          const response = await fetch("/api/issues", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data), // Convert to JSON string
-          });
-          setSubmitting(false);
-          if (response.ok) {
-            setError("");
-            router.push("/issues");
-          } else {
-            setError("Failed to submit due to unexpected error");
-          }
-        })}
-      >
+      <form className="space-y-3" onSubmit={onSubmit}>
         <TextField.Root
           placeholder="Title"
           {...register("title")}
