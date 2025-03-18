@@ -33,13 +33,24 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
 
   const onSubmit = handleSubmit(async (data) => {
     setSubmitting(true);
-    const response = await fetch("/api/issues", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data), // Convert to JSON string
-    });
+    let response;
+    if (issue) {
+      response = await fetch("/api/issues/" + issue.id, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+    } else {
+      response = await fetch("/api/issues", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data), // Convert to JSON string
+      });
+    }
     setSubmitting(false);
     if (response.ok) {
       setError("");
@@ -83,7 +94,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
         <Button type="submit" disabled={isSubmitting}>
-          Create Issue
+          {issue ? "Update Issue" : "Create Issue"}{" "}
           {isSubmitting && <Spinner />}
         </Button>
       </form>
