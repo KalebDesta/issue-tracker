@@ -55,6 +55,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     if (response.ok) {
       setError("");
       router.push("/issues");
+      router.refresh();
     } else {
       setError("Failed to submit due to unexpected error");
     }
