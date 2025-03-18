@@ -1,6 +1,7 @@
 import IssuesStatusBadge from "@/app/components/IssuesStatusBadge";
 import { prisma } from "@/prisma/client";
 import { Card, Flex, Heading, Text } from "@radix-ui/themes";
+
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 
@@ -12,6 +13,7 @@ const IssueDetailsPage = async ({ params }: Props) => {
   const issue = await prisma.issue.findUnique({
     where: { id: parseInt(await params.id) },
   });
+
   if (!issue) notFound();
   return (
     <div>
