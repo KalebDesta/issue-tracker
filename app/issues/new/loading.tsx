@@ -1,13 +1,7 @@
-import { Box } from "@radix-ui/themes";
-import { Skeleton } from "@/app/components";
+import FormLoading from "../_components/FormLoading";
 
 const NewIssueLoadingPage = () => {
-  return (
-    <Box className="max-w-xl">
-      <Skeleton />
-      <Skeleton height="20rem" />
-    </Box>
-  );
+  return <FormLoading />;
 };
 
 export default NewIssueLoadingPage;
