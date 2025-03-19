@@ -3,7 +3,7 @@ import Link from "next/link";
 import { IoBugSharp } from "react-icons/io5";
 import classNames from "classnames";
 import { usePathname } from "next/navigation";
-import { Box, Container, Flex } from "@radix-ui/themes";
+import { Avatar, Box, Container, DropdownMenu, Flex } from "@radix-ui/themes";
 import { useSession } from "next-auth/react";
 
 const NavBar = () => {
@@ -43,7 +43,26 @@ const NavBar = () => {
           </Flex>
           <Box>
             {status === "authenticated" && (
-              <Link href="/api/auth/signout">Log out</Link>
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger>
+                  <Avatar
+                    src={session.user!.image!}
+                    fallback={"?"}
+                    radius="full"
+                    size="2"
+                    className="cursor-pointer"
+                    referrerPolicy="no-referrer"
+                  />
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                  <DropdownMenu.Label>
+                    {session.user!.email!}
+                  </DropdownMenu.Label>
+                  <DropdownMenu.Item>
+                    <Link href="/api/auth/signout">Log out</Link>
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
             )}
             {status === "unauthenticated" && (
               <Link href="api/auth/signin">Log in</Link>
