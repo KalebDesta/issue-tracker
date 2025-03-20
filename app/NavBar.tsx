@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { Skeleton } from "@/app/components";
 import { IoBugSharp } from "react-icons/io5";
 import classNames from "classnames";
 import { usePathname } from "next/navigation";
@@ -53,7 +54,7 @@ const NavLinks = () => {
 
 const SessionMenu = () => {
   const { status, data: session } = useSession();
-  if (status === "loading") return null;
+  if (status === "loading") return <Skeleton width="3rem" />;
 
   if (status === "unauthenticated")
     return (
