@@ -6,6 +6,7 @@ import "./globals.css";
 import NavBar from "./NavBar";
 import { Container, Theme } from "@radix-ui/themes";
 import AuthProvider from "./auth/Provider";
+import QueryClientProvider from "./QueryClientProvider";
 
 const poppins = Poppins({
   weight: ["200", "300", "400", "600", "800"],
@@ -27,14 +28,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} antialiased`}>
-        <AuthProvider>
-          <Theme accentColor="purple" grayColor="olive">
-            <NavBar></NavBar>
-            <main className="p-5">
-              <Container>{children}</Container>
-            </main>
-          </Theme>
-        </AuthProvider>
+        <QueryClientProvider>
+          <AuthProvider>
+            <Theme accentColor="purple" grayColor="olive">
+              <NavBar></NavBar>
+              <main className="p-5">
+                <Container>{children}</Container>
+              </main>
+            </Theme>
+          </AuthProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
