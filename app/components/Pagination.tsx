@@ -26,7 +26,7 @@ const Pagination = ({ pageCount, currentPage }: Props) => {
   };
 
   return (
-    <Flex align="center" gap="3" mt="5">
+    <Flex align="center" gap="3">
       <Button
         color="gray"
         variant="ghost"
