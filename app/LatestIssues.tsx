@@ -10,7 +10,7 @@ const LatestIssues = async () => {
     include: { assignedUser: true },
   });
   return (
-    <Card>
+    <Card variant="classic">
       <Heading size="5" mb="3">
         Latest Issues
       </Heading>
@@ -27,7 +27,11 @@ const LatestIssues = async () => {
                     <IssuesStatusBadge status={issue.status} />
                   </Flex>
                   {issue.assignedUser && (
-                    <Avatar src={issue.assignedUser.image!} fallback="?" />
+                    <Avatar
+                      src={issue.assignedUser.image!}
+                      fallback="?"
+                      radius="full"
+                    />
                   )}
                 </Flex>
               </Table.Cell>
