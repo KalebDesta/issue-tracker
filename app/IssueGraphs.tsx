@@ -6,21 +6,19 @@ import {
   XAxis,
   YAxis,
   Bar,
-  Legend,
   Tooltip,
 } from "recharts";
+import { SummaryProp } from "./IssueSummary";
 
 interface Props {
-  open: number;
-  inProgress: number;
-  closed: number;
+  summary: SummaryProp;
 }
 
-const IssueGraphs = ({ open, inProgress, closed }: Props) => {
+const IssueGraphs = ({ summary }: Props) => {
   const containers: { label: string; count: number }[] = [
-    { label: "Open", count: open },
-    { label: "In Progress", count: inProgress },
-    { label: "Closed", count: closed },
+    { label: "Open", count: summary.open },
+    { label: "In Progress", count: summary.inProgress },
+    { label: "Closed", count: summary.closed },
   ];
   return (
     <Card>

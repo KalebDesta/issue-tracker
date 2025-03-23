@@ -2,17 +2,25 @@ import { Status } from "@prisma/client";
 import { Card, Flex, Text } from "@radix-ui/themes";
 import Link from "@/app/components/Link";
 
-interface Props {
+export interface SummaryProp {
   open: number;
   inProgress: number;
   closed: number;
 }
 
-const IssueSummary = ({ open, inProgress, closed }: Props) => {
+interface Props {
+  summary: SummaryProp;
+}
+
+const IssueSummary = ({ summary }: Props) => {
   const containers: { label: string; count: number; status: Status }[] = [
-    { label: "Open Issues", count: open, status: "OPEN" },
-    { label: "In-Progress Issues", count: inProgress, status: "IN_PROGRESS" },
-    { label: "Closed Issues", count: closed, status: "CLOSED" },
+    { label: "Open Issues", count: summary.open, status: "OPEN" },
+    {
+      label: "In-Progress Issues",
+      count: summary.inProgress,
+      status: "IN_PROGRESS",
+    },
+    { label: "Closed Issues", count: summary.closed, status: "CLOSED" },
   ];
   return (
     <Flex gap="3">
