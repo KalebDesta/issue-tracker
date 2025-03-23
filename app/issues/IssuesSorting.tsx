@@ -1,15 +1,36 @@
 "use client";
 import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-const IssuesSortingButton = () => {
-  const [sorting, setSorting] = useState<"asc" | "desc">("asc");
+interface Props {
+  column: string;
+  currentOrder: "asc" | "desc";
+}
 
-  if (sorting === "asc")
-    return (
-      <ArrowUpIcon className="inline" onClick={() => setSorting("desc")} />
-    );
-  return <ArrowDownIcon className="inline" onClick={() => setSorting("asc")} />;
+const IssuesSortingButton = ({ column, currentOrder }: Props) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const toggleSorting = () => {
+    const newOrder = currentOrder === "asc" ? "desc" : "asc";
+
+    const query = new URLSearchParams(searchParams.toString());
+    query.set("orderBy", column);
+    query.set("order", newOrder);
+
+    router.push(`?${query.toString()}`);
+  };
+
+  return (
+    <button onClick={toggleSorting}>
+      {currentOrder === "asc" ? (
+        <ArrowUpIcon className="inline" />
+      ) : (
+        <ArrowDownIcon className="inline" />
+      )}
+    </button>
+  );
 };
 
 export default IssuesSortingButton;

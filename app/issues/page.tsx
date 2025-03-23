@@ -7,7 +7,7 @@ import { Issue, Status } from "@prisma/client";
 import IssuesSortingButton from "./IssuesSorting";
 
 interface Props {
-  searchParams: { status: Status; orderBy: keyof Issue };
+  searchParams: { status: Status; orderBy: keyof Issue; order: "asc" | "desc" };
 }
 
 const columns: { label: string; value: keyof Issue; className?: string }[] = [
@@ -22,12 +22,25 @@ const columns: { label: string; value: keyof Issue; className?: string }[] = [
 
 const IssuesPage = async ({ searchParams }: Props) => {
   const resolvedSearchParams = await searchParams;
+  const validatedOrderBy = columns
+    .map((column) => column.value)
+    .includes(resolvedSearchParams.orderBy as keyof Issue)
+    ? (resolvedSearchParams.orderBy as keyof Issue)
+    : "createdAt"; // Default sorting column
+
+  const validatedOrder = ["asc", "desc"].includes(
+    resolvedSearchParams.order as "asc" | "desc"
+  )
+    ? (resolvedSearchParams.order as "asc" | "desc")
+    : "desc"; // Default sorting direction
+
   const statuses = Object.values(Status);
-  const status = statuses.includes(resolvedSearchParams.status)
+  const validStatus = statuses.includes(resolvedSearchParams.status)
     ? resolvedSearchParams.status
     : undefined;
   const issues = await prisma.issue.findMany({
-    where: { status: status },
+    where: { status: validStatus },
+    orderBy: { [validatedOrderBy]: validatedOrder },
   });
 
   return (
@@ -43,13 +56,20 @@ const IssuesPage = async ({ searchParams }: Props) => {
               >
                 <NextLink
                   href={{
-                    query: { ...resolvedSearchParams, orderBy: column.value },
+                    query: {
+                      ...resolvedSearchParams,
+                      orderBy: column.value,
+                      order: validatedOrder === "asc" ? "desc" : "asc",
+                    },
                   }}
                 >
                   {column.label}
                 </NextLink>
                 {resolvedSearchParams.orderBy === column.value && (
-                  <IssuesSortingButton />
+                  <IssuesSortingButton
+                    column={column.value}
+                    currentOrder={validatedOrder}
+                  />
                 )}
               </Table.ColumnHeaderCell>
             ))}
