@@ -9,14 +9,12 @@ import { Button, Flex, Text } from "@radix-ui/themes";
 import { useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
-  itemCount: number;
-  pageSize: number;
+  pageCount: number;
   currentPage: number;
 }
 
-const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
-  const pageNumber = Math.ceil(itemCount / pageSize);
-  if (pageNumber <= 1) return null;
+const Pagination = ({ pageCount, currentPage }: Props) => {
+  if (pageCount <= 1) return null;
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -28,7 +26,7 @@ const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
   };
 
   return (
-    <Flex align="center" gap="3">
+    <Flex align="center" gap="3" mt="5">
       <Button
         color="gray"
         variant="ghost"
@@ -46,12 +44,12 @@ const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
         <ChevronLeftIcon />
       </Button>
       <Text size="2">
-        Page {currentPage} of {pageNumber}
+        Page {currentPage} of {pageCount}
       </Text>
       <Button
         color="gray"
         variant="ghost"
-        disabled={currentPage === pageNumber}
+        disabled={currentPage === pageCount}
         onClick={() => changePage(currentPage + 1)}
       >
         <ChevronRightIcon />
@@ -59,8 +57,8 @@ const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
       <Button
         color="gray"
         variant="ghost"
-        disabled={currentPage === pageNumber}
-        onClick={() => changePage(pageNumber)}
+        disabled={currentPage === pageCount}
+        onClick={() => changePage(pageCount)}
       >
         <DoubleArrowRightIcon />
       </Button>

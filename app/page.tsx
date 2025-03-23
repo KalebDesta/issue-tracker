@@ -7,10 +7,6 @@ export default async function Home({
 }) {
   const validParams = await searchParams;
   return (
-    <Pagination
-      currentPage={parseInt(validParams.page)}
-      pageSize={10}
-      itemCount={100}
-    />
+    <Pagination currentPage={parseInt(validParams.page) || 1} pageCount={10} />
   );
 }
