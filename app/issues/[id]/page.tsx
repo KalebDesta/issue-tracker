@@ -7,6 +7,8 @@ import DeleteIssueButton from "./DeleteIssueButton";
 import { getServerSession } from "next-auth";
 import AuthOptions from "@/app/api/auth/[...nextauth]/authOptions";
 import AssigneeSelect from "./AssigneeSelect";
+import { title } from "process";
+import { Description } from "@radix-ui/themes/components/dialog";
 
 interface Props {
   params: { id: string };
@@ -40,3 +42,15 @@ const IssueDetailsPage = async ({ params }: Props) => {
 };
 
 export default IssueDetailsPage;
+
+export async function generateMetadata({ params }: Props) {
+  const validParams = await params;
+  const issue = await prisma.issue.findUnique({
+    where: { id: parseInt(validParams.id) },
+  });
+
+  return {
+    title: `Issue Details - ${issue?.title}`,
+    description: `Details of issue: ${issue?.id}`,
+  };
+}
