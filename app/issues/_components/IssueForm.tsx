@@ -2,7 +2,7 @@
 import { ErrorMessage, Spinner } from "@/app/components";
 import { issueSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Issue } from "@prisma/client";
+import { Issue, Status } from "@prisma/client";
 import { Button, Callout, TextField } from "@radix-ui/themes";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import StatusSelect from "./StatusSelect";
 
 type issueFormData = z.infer<typeof issueSchema>;
 
@@ -65,12 +66,26 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
       )}
       <form className="space-y-3" onSubmit={onSubmit}>
         <TextField.Root
+          size={"3"}
           defaultValue={issue?.title}
           placeholder="Title"
           {...register("title")}
         ></TextField.Root>
 
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
+
+        <Controller
+          name="status"
+          control={control}
+          defaultValue={issue?.status} // Provide a default value if necessary
+          render={({ field }) => (
+            <StatusSelect
+              value={(field.value as Status) || "OPEN"}
+              onChange={field.onChange}
+            />
+          )}
+        />
+        <ErrorMessage>{errors.status?.message}</ErrorMessage>
 
         <Controller
           control={control}
@@ -89,7 +104,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
 
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
-        <Button type="submit" disabled={isSubmitting}>
+        <Button size={"3"} type="submit" disabled={isSubmitting}>
           {issue ? "Update Issue" : "Create Issue"}{" "}
           {isSubmitting && <Spinner />}
         </Button>

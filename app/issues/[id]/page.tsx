@@ -1,15 +1,13 @@
+import AuthOptions from "@/app/api/auth/[...nextauth]/authOptions";
 import { prisma } from "@/prisma/client";
 import { Box, Flex, Grid } from "@radix-ui/themes";
+import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
+import { cache } from "react";
+import AssigneeSelect from "./AssigneeSelect";
+import DeleteIssueButton from "./DeleteIssueButton";
 import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
-import DeleteIssueButton from "./DeleteIssueButton";
-import { getServerSession } from "next-auth";
-import AuthOptions from "@/app/api/auth/[...nextauth]/authOptions";
-import AssigneeSelect from "./AssigneeSelect";
-import { title } from "process";
-import { Description } from "@radix-ui/themes/components/dialog";
-import { cache } from "react";
 
 interface Props {
   params: { id: string };
@@ -30,7 +28,7 @@ const IssueDetailsPage = async ({ params }: Props) => {
   if (!issue) notFound();
   return (
     <Grid columns={{ initial: "1", sm: "5" }} gap={"2rem"}>
-      <Box className="md:col-span-4">
+      <Box className="md:col-span-3">
         <IssueDetails issue={issue} />
       </Box>
       <Box>

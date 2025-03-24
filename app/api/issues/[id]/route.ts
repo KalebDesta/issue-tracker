@@ -14,9 +14,10 @@ export async function PATCH(
   const validation = patchIssueSchema.safeParse(body);
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
-  const { title, description, assignedUserId } = body;
+  const { title, status, description, assignedUserId } = body;
+  const validParams = await params;
   const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: parseInt(validParams.id) },
   });
   if (!issue)
     return NextResponse.json({ error: "Issue Not Found!" }, { status: 404 });
@@ -31,6 +32,7 @@ export async function PATCH(
     where: { id: issue.id },
     data: {
       title,
+      status,
       description,
       assignedUserId,
     },
@@ -44,8 +46,9 @@ export async function DELETE(
 ) {
   const session = await getServerSession(AuthOptions);
   if (!session) return NextResponse.json({}, { status: 401 });
+  const validParams = await params;
   const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: parseInt(validParams.id) },
   });
 
   if (!issue)
