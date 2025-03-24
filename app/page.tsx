@@ -23,12 +23,12 @@ export default async function Home() {
   };
 
   return (
-    <Grid columns={{ initial: "1", md: "2" }} gap={"4"}>
+    <Grid columns={{ initial: "1", sm: "2" }} gap={"4"}>
+      <LatestIssues />
       <Flex direction={"column"} gap={"4"}>
         <IssueSummary summary={summary} />
         <IssueGraphs summary={summary} />
       </Flex>
-      <LatestIssues />
     </Grid>
   );
 }

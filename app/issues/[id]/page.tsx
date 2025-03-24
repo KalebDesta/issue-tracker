@@ -9,18 +9,23 @@ import AuthOptions from "@/app/api/auth/[...nextauth]/authOptions";
 import AssigneeSelect from "./AssigneeSelect";
 import { title } from "process";
 import { Description } from "@radix-ui/themes/components/dialog";
+import { cache } from "react";
 
 interface Props {
   params: { id: string };
 }
 
+const fetchUser = cache((id: number) =>
+  prisma.issue.findUnique({
+    where: { id: id },
+  })
+);
+
 const IssueDetailsPage = async ({ params }: Props) => {
   const validParams = await params;
   const session = await getServerSession(AuthOptions);
 
-  const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(validParams.id) },
-  });
+  const issue = await fetchUser(parseInt(validParams.id));
 
   if (!issue) notFound();
   return (
@@ -45,9 +50,7 @@ export default IssueDetailsPage;
 
 export async function generateMetadata({ params }: Props) {
   const validParams = await params;
-  const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(validParams.id) },
-  });
+  const issue = await fetchUser(parseInt(validParams.id));
 
   return {
     title: `Issue Details - ${issue?.title}`,
