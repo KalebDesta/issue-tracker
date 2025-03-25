@@ -33,3 +33,13 @@ export const patchIssueSchema = z.object({
     .nullable(),
   status: z.enum(statusValues).optional(),
 });
+
+export const solutionSchema = z.object({
+  description: z
+    .string()
+    .min(1, "must provide a description of the solution")
+    .max(65535, "exceeded character limit"),
+  status: z.enum(statusValues, {
+    message: "must select the status of the issue",
+  }),
+});
