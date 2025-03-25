@@ -1,7 +1,11 @@
 import { Button } from "@radix-ui/themes";
 
-const ProvideSolutionButton = () => {
-  return <Button variant="soft">Provide Solution</Button>;
+const ProvideSolutionButton = ({ onClick }: { onClick: () => void }) => {
+  return (
+    <Button variant="soft" onClick={onClick}>
+      Provide Solution
+    </Button>
+  );
 };
 
 export default ProvideSolutionButton;

@@ -13,7 +13,7 @@ interface Props {
   params: { id: string };
 }
 
-const fetchUser = cache((id: number) =>
+const fetchIssue = cache((id: number) =>
   prisma.issue.findUnique({
     where: { id: id },
   })
@@ -22,8 +22,7 @@ const fetchUser = cache((id: number) =>
 const IssueDetailsPage = async ({ params }: Props) => {
   const validParams = await params;
   const session = await getServerSession(AuthOptions);
-
-  const issue = await fetchUser(parseInt(validParams.id));
+  const issue = await fetchIssue(parseInt(validParams.id));
 
   if (!issue) notFound();
   return (
@@ -48,7 +47,7 @@ export default IssueDetailsPage;
 
 export async function generateMetadata({ params }: Props) {
   const validParams = await params;
-  const issue = await fetchUser(parseInt(validParams.id));
+  const issue = await fetchIssue(parseInt(validParams.id));
 
   return {
     title: `Issue Details - ${issue?.title}`,

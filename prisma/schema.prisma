@@ -14,20 +14,32 @@ datasource db {
 }
 
 model Issue {
-  id             Int      @id @default(autoincrement())
-  title          String   @db.VarChar(255)
-  description    String   @db.Text
-  status         Status   @default(OPEN)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  assignedUserId String?  @db.VarChar(255)
-  assignedUser   User?    @relation(fields: [assignedUserId], references: [id])
+  id                Int        @id @default(autoincrement())
+  title             String     @db.VarChar(255)
+  description       String     @db.Text
+  status            Status     @default(OPEN)
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  assignedUserId    String?    @db.VarChar(255)
+  assignedUser      User?      @relation(fields: [assignedUserId], references: [id])
+  assignedSolutions Solution[]
 }
 
 enum Status {
   OPEN
   IN_PROGRESS
   CLOSED
+}
+
+model Solution {
+  id             Int      @id @default(autoincrement())
+  issueId        Int
+  issue          Issue    @relation(fields: [issueId], references: [id])
+  description    String   @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  providerUserId String   @db.VarChar(255)
+  providerUser   User     @relation(fields: [providerUserId], references: [id])
 }
 
 model Account {
@@ -61,14 +73,15 @@ model Session {
 }
 
 model User {
-  id             String    @id @default(cuid())
-  name           String?
-  email          String?   @unique
-  emailVerified  DateTime? @map("email_verified")
-  image          String?
-  accounts       Account[]
-  sessions       Session[]
-  assignedIssues Issue[]
+  id                String     @id @default(cuid())
+  name              String?
+  email             String?    @unique
+  emailVerified     DateTime?  @map("email_verified")
+  image             String?
+  accounts          Account[]
+  sessions          Session[]
+  assignedIssues    Issue[]
+  solutionsProvided Solution[]
 
   @@map("users")
 }

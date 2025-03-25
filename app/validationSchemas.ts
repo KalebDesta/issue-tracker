@@ -39,7 +39,4 @@ export const solutionSchema = z.object({
     .string()
     .min(1, "must provide a description of the solution")
     .max(65535, "exceeded character limit"),
-  status: z.enum(statusValues, {
-    message: "must select the status of the issue",
-  }),
 });
