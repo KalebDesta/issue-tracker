@@ -7,17 +7,15 @@ import SolutionEntry from "../_components/SolutionEntry";
 const IssueDetails = ({ issue }: { issue: Issue }) => {
   return (
     <>
-      <Card>
-        <Heading>{issue.title}</Heading>
-        <Flex gap={"4"} my={"2"}>
-          <IssuesStatusBadge status={issue.status} />
-          <Text>{issue.createdAt.toDateString()}</Text>
-        </Flex>
-        <Card className="prose max-w-full">
-          <ReactMarkdown>{issue.description}</ReactMarkdown>
-        </Card>
-        <SolutionEntry issue={issue} />
+      <Heading>{issue.title}</Heading>
+      <Flex gap={"4"} my={"2"}>
+        <IssuesStatusBadge status={issue.status} />
+        <Text color="gray">{issue.createdAt.toDateString()}</Text>
+      </Flex>
+      <Card className="prose max-w-full">
+        <ReactMarkdown>{issue.description}</ReactMarkdown>
       </Card>
+      <SolutionEntry issue={issue} />
     </>
   );
 };

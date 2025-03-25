@@ -8,6 +8,7 @@ import AssigneeSelect from "./AssigneeSelect";
 import DeleteIssueButton from "./DeleteIssueButton";
 import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
+import SolutionDetail from "../_components/SolutionDetail";
 
 interface Props {
   params: { id: string };
@@ -23,12 +24,17 @@ const IssueDetailsPage = async ({ params }: Props) => {
   const validParams = await params;
   const session = await getServerSession(AuthOptions);
   const issue = await fetchIssue(parseInt(validParams.id));
-
+  const solutions = await prisma.solution.findMany({
+    where: { issueId: issue?.id },
+  });
   if (!issue) notFound();
   return (
     <Grid columns={{ initial: "1", sm: "5" }} gap={"2rem"}>
       <Box className="md:col-span-4">
         <IssueDetails issue={issue} />
+        {solutions.map((solution) => (
+          <SolutionDetail key={solution.id} solution={solution} />
+        ))}
       </Box>
       <Box className="md:col-span-1">
         {session && (

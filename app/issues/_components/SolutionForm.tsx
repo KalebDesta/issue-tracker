@@ -47,7 +47,8 @@ const SolutionForm = ({
     if (solutionResponse.ok) {
       setError("");
       afterSubmit();
-      //router.refresh();
+      router.replace(`/issues/${issue.id}`);
+      router.refresh();
     } else {
       setError("Failed to submit due to unexpected error");
     }

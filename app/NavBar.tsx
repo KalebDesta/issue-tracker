@@ -71,7 +71,7 @@ const SessionMenu = () => {
             src={session!.user!.image!}
             fallback={"?"}
             radius="full"
-            size="2"
+            size="3"
             className="cursor-pointer"
             referrerPolicy="no-referrer"
           />
