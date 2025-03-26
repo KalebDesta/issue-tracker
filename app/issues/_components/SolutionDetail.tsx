@@ -11,6 +11,7 @@ import {
   Text,
 } from "@radix-ui/themes";
 import ReactMarkdown from "react-markdown";
+import SolutionDropDown from "./SolutionDropDown";
 
 const SolutionDetail = async ({ solution }: { solution: Solution }) => {
   const user = await prisma.user.findUnique({
@@ -35,9 +36,10 @@ const SolutionDetail = async ({ solution }: { solution: Solution }) => {
             </Text>
           </Flex>
 
-          <Button variant="ghost" size="1">
-            <DotsVerticalIcon />
-          </Button>
+          <SolutionDropDown
+            solutionId={solution.id}
+            issueId={solution.issueId}
+          />
         </Flex>
         <ReactMarkdown>{solution.description}</ReactMarkdown>
       </Box>

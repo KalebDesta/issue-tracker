@@ -4,14 +4,12 @@ import { issueSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue, Status } from "@prisma/client";
 import { Button, Callout, TextField } from "@radix-ui/themes";
-import MDEditor from "@uiw/react-md-editor";
-import rehypeSanitize from "rehype-sanitize";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import StatusSelect from "./StatusSelect";
 import MarkdownEditor from "./MarkDownEditor";
+import StatusSelect from "./StatusSelect";
 
 type issueFormData = z.infer<typeof issueSchema>;
 
