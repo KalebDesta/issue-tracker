@@ -27,9 +27,9 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
       }}
       textareaProps={{
         placeholder: placeholder || "Enter markdown content...",
-        style: { fontSize: "24px" },
+        style: { fontSize: "24px", color: "#333" },
       }}
-      style={{ fontSize: "24px", height: "300px" }}
+      style={{ fontSize: "24px", height: "300px", color: "#333" }}
       commands={toolbarCommands}
     />
   );

@@ -25,3 +25,9 @@ body {
     @apply text-zinc-600 hover:text-zinc-800 transition-colors;
   }
 }
+
+/* Override the faded gray color */
+.w-md-editor-text-input,
+.w-md-editor-text-pre {
+  color: #333 !important; /* Darker text color */
+}

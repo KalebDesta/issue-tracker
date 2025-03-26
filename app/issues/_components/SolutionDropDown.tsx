@@ -7,9 +7,11 @@ import DeleteSolutionAlert from "./SolutionDeleteButton";
 const SolutionDropDown = ({
   issueId,
   solutionId,
+  handleEditing,
 }: {
   issueId: number;
   solutionId: number;
+  handleEditing: () => void;
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   return (
@@ -21,7 +23,13 @@ const SolutionDropDown = ({
           </Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content variant="solid">
-          <DropdownMenu.Item>Edit Solution</DropdownMenu.Item>
+          <DropdownMenu.Item
+            onSelect={() => {
+              handleEditing();
+            }}
+          >
+            Edit Solution
+          </DropdownMenu.Item>
 
           <DropdownMenu.Separator />
 

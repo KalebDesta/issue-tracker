@@ -33,7 +33,7 @@ const IssueDetailsPage = async ({ params }: Props) => {
       <Box className="md:col-span-4">
         <IssueDetails issue={issue} />
         {solutions.map((solution) => (
-          <SolutionDetail key={solution.id} solution={solution} />
+          <SolutionDetail key={solution.id} solution={solution} issue={issue} />
         ))}
       </Box>
       <Box className="md:col-span-1">

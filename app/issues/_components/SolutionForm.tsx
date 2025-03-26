@@ -1,22 +1,24 @@
 "use client";
 import { solutionSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Issue, User } from "@prisma/client";
+import { Issue, Solution, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
 import { z } from "zod";
 import { ErrorMessage, Spinner } from "@/app/components";
-import { Button, Callout } from "@radix-ui/themes";
+import { Button, Callout, Flex } from "@radix-ui/themes";
 import MarkdownEditor from "./MarkDownEditor";
 
 type SolutionFormData = z.infer<typeof solutionSchema>;
 
 const SolutionForm = ({
   issue,
+  solution,
   afterSubmit,
 }: {
   issue: Issue;
+  solution?: Solution;
   afterSubmit: () => void;
 }) => {
   const {
@@ -33,16 +35,25 @@ const SolutionForm = ({
     setSubmitting(true);
 
     let solutionResponse;
-    //add a case for editing the solution
-    solutionResponse = await fetch(`/api/issues/${issue.id}/solutions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        description: data.description,
-      }),
-    });
+    if (solution) {
+      solutionResponse = await fetch("/api/solutions/" + solution.id, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+    } else {
+      solutionResponse = await fetch(`/api/issues/${issue.id}/solutions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          description: data.description,
+        }),
+      });
+    }
     setSubmitting(false);
     if (solutionResponse.ok) {
       setError("");
@@ -66,6 +77,7 @@ const SolutionForm = ({
         <Controller
           control={control}
           name="description"
+          defaultValue={solution?.description}
           render={({ field }) => {
             return (
               <MarkdownEditor
@@ -78,9 +90,14 @@ const SolutionForm = ({
         ></Controller>
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
-        <Button size={"3"} type="submit" disabled={isSubmitting}>
-          Submit Solution {isSubmitting && <Spinner />}
-        </Button>
+        <Flex justify="end" gap="3" mt="4">
+          <Button size="3" variant="soft" onClick={afterSubmit} type="button">
+            Cancel
+          </Button>
+          <Button size="3" type="submit" disabled={isSubmitting}>
+            Submit Solution {isSubmitting && <Spinner />}
+          </Button>
+        </Flex>
       </form>
     </div>
   );
