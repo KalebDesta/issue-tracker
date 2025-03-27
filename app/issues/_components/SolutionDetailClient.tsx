@@ -44,9 +44,7 @@ const SolutionDetailClient = ({
           />
         </Flex>
 
-        <Box mt="-3" mb="-4">
-          {!editing && <ReactMarkdown>{solution.description}</ReactMarkdown>}
-        </Box>
+        {!editing && <ReactMarkdown>{solution.description}</ReactMarkdown>}
 
         {editing && (
           <SolutionForm

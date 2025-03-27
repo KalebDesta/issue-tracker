@@ -32,9 +32,6 @@ const IssueDetailsPage = async ({ params }: Props) => {
     <Grid columns={{ initial: "1", sm: "5" }} gap={"2rem"}>
       <Box className="md:col-span-4">
         <IssueDetails issue={issue} />
-        {solutions.map((solution) => (
-          <SolutionDetail key={solution.id} solution={solution} issue={issue} />
-        ))}
       </Box>
       <Box className="md:col-span-1">
         {session && (
@@ -44,6 +41,11 @@ const IssueDetailsPage = async ({ params }: Props) => {
             <DeleteIssueButton issueId={issue.id} />
           </Flex>
         )}
+      </Box>
+      <Box className="md:col-span-4" mt={"-4"}>
+        {solutions.map((solution) => (
+          <SolutionDetail key={solution.id} solution={solution} issue={issue} />
+        ))}
       </Box>
     </Grid>
   );

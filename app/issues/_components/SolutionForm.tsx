@@ -91,10 +91,10 @@ const SolutionForm = ({
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
         <Flex justify="end" gap="3" mt="4">
-          <Button size="3" variant="soft" onClick={afterSubmit} type="button">
+          <Button variant="soft" onClick={afterSubmit} type="button">
             Cancel
           </Button>
-          <Button size="3" type="submit" disabled={isSubmitting}>
+          <Button type="submit" disabled={isSubmitting}>
             Submit Solution {isSubmitting && <Spinner />}
           </Button>
         </Flex>
