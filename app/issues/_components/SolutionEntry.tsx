@@ -18,7 +18,7 @@ const SolutionEntry = ({ issue }: { issue: Issue }) => {
         <ProvideSolutionButton
           onClick={() => setSolutionForm(!solutionForm)}
         ></ProvideSolutionButton>
-        <GenerateSolutionButton></GenerateSolutionButton>
+        <GenerateSolutionButton issue={issue}></GenerateSolutionButton>
       </Flex>
     );
   return (

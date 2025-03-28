@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `users` ADD COLUMN `isAi` BOOLEAN NOT NULL DEFAULT false;

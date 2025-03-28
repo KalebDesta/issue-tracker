@@ -78,6 +78,7 @@ model User {
   email             String?    @unique
   emailVerified     DateTime?  @map("email_verified")
   image             String?
+  isAi              Boolean    @default(false)
   accounts          Account[]
   sessions          Session[]
   assignedIssues    Issue[]
