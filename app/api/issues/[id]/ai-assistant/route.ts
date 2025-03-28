@@ -28,13 +28,13 @@ export async function POST(
     return NextResponse.json({ error: aiError }, { status: 500 });
   }
 
-  // ✅ Middleware: Check for Existing AI-generated Solution
+  // Middleware: Check for Existing AI-generated Solution
   const existingSolution = await checkExistingSolution(issueId, aiUser!.id);
   if (existingSolution) {
     return NextResponse.json(existingSolution, { status: 200 });
   }
 
-  // ✅ Fetch Issue
+  // Fetch Issue
   const issue = await prisma.issue.findUnique({
     where: { id: issueId },
   });
