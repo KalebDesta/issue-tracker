@@ -6,6 +6,8 @@ import IssuesToolBar from "./IssuesToolBar";
 import IssueTable, { columnNames, IssueQuery } from "./IssueTable";
 import { Metadata } from "next";
 
+const PAGE_SIZE = 12;
+
 interface Props {
   searchParams: {
     status: Status;
@@ -34,12 +36,10 @@ const IssuesPage = async ({ searchParams }: Props) => {
     ? resolvedSearchParams.status
     : undefined;
 
-  const pageSize = 10;
-
   const itemCount = await prisma.issue.count({
     where: { status: validStatus },
   });
-  const pageCount = Math.ceil(itemCount / pageSize);
+  const pageCount = Math.ceil(itemCount / PAGE_SIZE);
   const currentPage = Math.min(
     pageCount,
     parseInt(resolvedSearchParams.page) || 1
@@ -47,8 +47,8 @@ const IssuesPage = async ({ searchParams }: Props) => {
   const issues = await prisma.issue.findMany({
     where: { status: validStatus },
     orderBy: { [validatedOrderBy]: validatedOrder },
-    skip: (currentPage - 1) * pageSize,
-    take: pageSize,
+    skip: (currentPage - 1) * PAGE_SIZE,
+    take: PAGE_SIZE,
   });
   const finalParams: IssueQuery = {
     order: validatedOrder,
