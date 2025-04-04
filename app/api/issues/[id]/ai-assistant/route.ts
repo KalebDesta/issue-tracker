@@ -7,10 +7,8 @@ import aiAssistance from "@/app/utils/aiAssistant";
 import { prisma } from "@/prisma/client";
 import { NextResponse } from "next/server";
 
-export async function POST(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function POST(req: Request, context: { params: { id: string } }) {
+  const { params } = context; //Correctly extract params from context
   const verifiedParams = await params;
   const issueId = parseInt(verifiedParams.id);
 
