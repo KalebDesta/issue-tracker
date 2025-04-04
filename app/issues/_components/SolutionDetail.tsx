@@ -1,5 +1,5 @@
 import { prisma } from "@/prisma/client";
-import { Issue, Solution, User } from "@prisma/client";
+import { Issue, Solution } from "@prisma/client";
 import SolutionDetailClient from "./SolutionDetailClient";
 
 const SolutionDetail = async ({

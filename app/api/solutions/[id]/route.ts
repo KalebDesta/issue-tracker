@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import { NextRequest, NextResponse } from "next/server";
 import AuthOptions from "../../auth/[...nextauth]/authOptions";
 import { patchIssueSchema } from "@/app/validationSchemas";
@@ -25,7 +24,10 @@ export async function PATCH(
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
   const sessionUser = await prisma.user.findUnique({
-    where: { name: session.user?.name, email: session.user?.email! },
+    where: {
+      name: session.user?.name ?? undefined,
+      email: session.user?.email ?? undefined,
+    },
   });
   if (sessionUser?.id !== solution.providerUserId) {
     return NextResponse.json(
@@ -59,7 +61,10 @@ export async function DELETE(
     );
 
   const sessionUser = await prisma.user.findUnique({
-    where: { name: session.user?.name, email: session.user?.email! },
+    where: {
+      name: session.user?.name ?? undefined,
+      email: session.user?.email ?? undefined,
+    },
   });
   const providerUser = await prisma.user.findUnique({
     where: { id: solution.providerUserId },

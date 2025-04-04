@@ -19,7 +19,7 @@ export async function POST(
   }
 
   // Middleware: Authentication
-  const { session, error: authError } = await authenticate(req);
+  const { error: authError } = await authenticate();
   if (authError) return authError;
 
   // Middleware: AI Assistant Lookup

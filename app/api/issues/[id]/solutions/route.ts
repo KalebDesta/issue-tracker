@@ -29,7 +29,10 @@ export async function POST(
     );
 
   const sessionUser = await prisma.user.findUnique({
-    where: { name: session.user?.name, email: session.user?.email! },
+    where: {
+      name: session.user?.name ?? undefined,
+      email: session.user?.email ?? undefined,
+    },
   });
   if (!sessionUser) {
     return NextResponse.json({ message: "User not found" }, { status: 404 });

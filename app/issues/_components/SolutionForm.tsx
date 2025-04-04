@@ -1,7 +1,7 @@
 "use client";
 import { solutionSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Issue, Solution, User } from "@prisma/client";
+import { Issue, Solution } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";

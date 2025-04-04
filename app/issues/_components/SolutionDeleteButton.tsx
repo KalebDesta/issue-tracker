@@ -1,6 +1,6 @@
 "use client";
 import { Spinner } from "@/app/components";
-import { Button, AlertDialog, Flex, Text } from "@radix-ui/themes";
+import { Button, AlertDialog, Flex } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -31,6 +31,7 @@ const DeleteSolutionAlert = ({
         router.refresh();
       });
     } catch (error) {
+      console.log(error);
       setError(true);
       setDeleting(false);
     }
@@ -39,10 +40,6 @@ const DeleteSolutionAlert = ({
   return (
     <>
       <AlertDialog.Root open={open} onOpenChange={onOpenChange}>
-        {/* <AlertDialog.Trigger disabled={isDeleting}>
-          <Text>{isDeleting && <Spinner />}Delete Solution</Text>
-        </AlertDialog.Trigger> */}
-
         <AlertDialog.Content>
           <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
           <AlertDialog.Description>

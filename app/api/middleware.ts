@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import AuthOptions from "./auth/[...nextauth]/authOptions";
 
-export async function authenticate(req: Request) {
+export async function authenticate() {
   const session = await getServerSession(AuthOptions);
 
   if (!session || !session.user || !session.user.email) {

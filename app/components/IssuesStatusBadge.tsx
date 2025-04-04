@@ -4,7 +4,7 @@ import React from "react";
 
 const mapping: Record<
   Status,
-  { label: String; color: "red" | "violet" | "green" }
+  { label: string; color: "red" | "violet" | "green" }
 > = {
   OPEN: { label: "Open", color: "red" },
   IN_PROGRESS: { label: "In Progress", color: "violet" },

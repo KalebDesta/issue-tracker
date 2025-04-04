@@ -1,6 +1,5 @@
 import { Status } from "@prisma/client";
 import { Flex, RadioCards } from "@radix-ui/themes";
-import { FormEvent } from "react";
 
 interface Props {
   value: Status;
@@ -31,7 +30,7 @@ export default StatusSelect;
 const statuses = Object.values(Status);
 const mapping: Record<
   Status,
-  { label: String; color: "red" | "violet" | "green" }
+  { label: string; color: "red" | "violet" | "green" }
 > = {
   OPEN: { label: "Open", color: "red" },
   IN_PROGRESS: { label: "In Progress", color: "violet" },
