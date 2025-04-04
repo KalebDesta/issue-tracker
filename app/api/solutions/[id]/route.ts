@@ -61,7 +61,10 @@ export async function DELETE(
   const sessionUser = await prisma.user.findUnique({
     where: { name: session.user?.name, email: session.user?.email! },
   });
-  if (sessionUser?.id !== solution.providerUserId) {
+  const providerUser = await prisma.user.findUnique({
+    where: { id: solution.providerUserId },
+  });
+  if (sessionUser?.id !== solution.providerUserId && !providerUser?.isAi) {
     return NextResponse.json(
       { message: "Cannot Delete another User's Solution" },
       { status: 401 }
