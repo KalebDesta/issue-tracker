@@ -17,6 +17,9 @@ const GenerateSolutionButton = ({ issue }: { issue: Issue }) => {
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        issueId: issue.id,
+      }),
     })
       .then((response) => response.json())
       .then(() => {

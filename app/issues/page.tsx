@@ -47,7 +47,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
   const issues = await prisma.issue.findMany({
     where: { status: validStatus },
     orderBy: { [validatedOrderBy]: validatedOrder },
-    skip: (currentPage - 1) * PAGE_SIZE,
+    skip: Math.max((currentPage - 1) * PAGE_SIZE, 0),
     take: PAGE_SIZE,
   });
   const finalParams: IssueQuery = {

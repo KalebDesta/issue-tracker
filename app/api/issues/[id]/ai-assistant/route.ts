@@ -5,18 +5,13 @@ import {
 } from "@/app/api/middleware";
 import aiAssistance from "@/app/utils/aiAssistant";
 import { prisma } from "@/prisma/client";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-type RouteContext = {
-  params: { id: string };
-};
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+  const issueId = parseInt(body.issueId);
 
-export async function POST(req: Request, context: RouteContext) {
-  const { params } = context; //Correctly extract params from context
-  const verifiedParams = await params;
-  const issueId = parseInt(verifiedParams.id);
-
-  if (isNaN(issueId)) {
+  if (!issueId || isNaN(issueId)) {
     return NextResponse.json({ error: "Invalid issue ID" }, { status: 400 });
   }
 
