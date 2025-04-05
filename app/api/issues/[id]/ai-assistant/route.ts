@@ -17,8 +17,9 @@ export async function POST(req: NextRequest) {
 
   // Middleware: Authentication
   const { error: authError } = await authenticate();
-  if (authError) return authError;
-
+  if (authError) {
+    return NextResponse.json({ error: authError }, { status: 401 });
+  }
   // Middleware: AI Assistant Lookup
   const { user: aiUser, error: aiError } = await findAiUser();
   if (aiError) {
