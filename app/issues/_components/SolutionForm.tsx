@@ -50,6 +50,7 @@ const SolutionForm = ({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          issueId: issue.id,
           description: data.description,
         }),
       });

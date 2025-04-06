@@ -35,6 +35,7 @@ export const patchIssueSchema = z.object({
 });
 
 export const solutionSchema = z.object({
+  issueId: z.number().optional(),
   description: z
     .string()
     .min(1, "must provide a description of the solution")
