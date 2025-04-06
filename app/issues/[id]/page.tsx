@@ -10,25 +10,22 @@ import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
 import SolutionDetail from "../_components/SolutionDetail";
 
-interface Props {
-  params: { id: string };
-}
-
+// Fetch function
 const fetchIssue = cache((id: number) =>
   prisma.issue.findUnique({
-    where: { id: id },
+    where: { id },
   })
 );
 
-const IssueDetailsPage = async ({ params }: Props) => {
-  const validParams = params;
+// Use inline typing — no `Props` interface needed
+const IssueDetailsPage = async ({ params }: { params: { id: string } }) => {
   const session = await getServerSession(AuthOptions);
-  const issue = await fetchIssue(parseInt(validParams.id));
-  const solutions = await prisma.solution.findMany({
-    where: { issueId: issue?.id },
-  });
-
+  const issue = await fetchIssue(parseInt(params.id));
   if (!issue) notFound();
+
+  const solutions = await prisma.solution.findMany({
+    where: { issueId: issue.id },
+  });
 
   return (
     <Grid columns={{ initial: "1", sm: "5" }} gap={"2rem"}>
@@ -55,9 +52,9 @@ const IssueDetailsPage = async ({ params }: Props) => {
 
 export default IssueDetailsPage;
 
-export async function generateMetadata({ params }: Props) {
-  const validParams = params;
-  const issue = await fetchIssue(parseInt(validParams.id));
+// Also fix metadata function
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const issue = await fetchIssue(parseInt(params.id));
 
   return {
     title: `Issue Details - ${issue?.title}`,
