@@ -21,13 +21,15 @@ const fetchIssue = cache((id: number) =>
 );
 
 const IssueDetailsPage = async ({ params }: Props) => {
-  const validParams = await params;
+  const validParams = params;
   const session = await getServerSession(AuthOptions);
   const issue = await fetchIssue(parseInt(validParams.id));
   const solutions = await prisma.solution.findMany({
     where: { issueId: issue?.id },
   });
+
   if (!issue) notFound();
+
   return (
     <Grid columns={{ initial: "1", sm: "5" }} gap={"2rem"}>
       <Box className="md:col-span-4">
@@ -54,7 +56,7 @@ const IssueDetailsPage = async ({ params }: Props) => {
 export default IssueDetailsPage;
 
 export async function generateMetadata({ params }: Props) {
-  const validParams = await params;
+  const validParams = params;
   const issue = await fetchIssue(parseInt(validParams.id));
 
   return {

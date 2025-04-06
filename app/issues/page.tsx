@@ -18,7 +18,7 @@ interface Props {
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
-  const resolvedSearchParams = await searchParams;
+  const resolvedSearchParams = searchParams;
   const validatedOrderBy = columnNames.includes(
     resolvedSearchParams.orderBy as keyof Issue
   )
